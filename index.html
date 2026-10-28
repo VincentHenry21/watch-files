@@ -3,34 +3,73 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-<title>Watch Files</title>
+<title>NXT:cheat</title>
 <style>
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: #000; color: #fff; font-family: -apple-system, Helvetica, Arial, sans-serif; font-size: 20px; line-height: 1.5; padding: 12px; padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
-h1 { font-size: 26px; line-height: 1.25; margin: 8px 0 16px; }
-h2 { font-size: 23px; line-height: 1.3; margin: 24px 0 8px; border-top: 1px solid #333; padding-top: 16px; }
+body { margin: 0 auto; max-width: 380px; background: #000; color: #fff; font-family: -apple-system, Helvetica, Arial, sans-serif; font-size: 21px; line-height: 1.45; padding: 10px; padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+h1 { font-size: 28px; line-height: 1.2; margin: 6px 0 4px; }
+h2 { font-size: 23px; line-height: 1.3; margin: 22px 0 8px; border-top: 1px solid #333; padding-top: 14px; }
 p { margin: 0 0 12px; overflow-wrap: break-word; }
-.sub { color: #bbb; font-size: 17px; margin-bottom: 20px; }
+.sub { color: #bbb; font-size: 17px; margin: 0 0 20px; }
+.brand { color: #f5b301; font-weight: 800; letter-spacing: 0.5px; }
 button { font: inherit; }
-.filebtn { display: block; width: 100%; text-align: left; background: #1c1c1e; color: #fff; border: 1px solid #333; border-radius: 14px; padding: 16px 14px; margin: 0 0 12px; min-height: 64px; }
+.filebtn { display: block; width: 100%; text-align: left; background: #1c1c1e; color: #fff; border: 1px solid #333; border-radius: 16px; padding: 18px 14px; margin: 0 0 12px; min-height: 72px; }
 .filebtn span { display: block; color: #bbb; font-size: 16px; margin-top: 4px; }
-.back { display: block; width: 100%; background: #f5b301; color: #000; font-weight: 700; border: 0; border-radius: 14px; padding: 14px; margin: 0 0 16px; min-height: 56px; }
-.reader { display: none; }
+.sectbtn { width: 48%; background: #1c1c1e; color: #fff; border: 1px solid #333; border-radius: 14px; padding: 14px 6px; min-height: 60px; font-size: 18px; }
+.sectbtn.on { background: #f5b301; color: #000; border-color: #f5b301; font-weight: 700; }
+.sectrow { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 16px; }
+.card { background: #1c1c1e; border: 1px solid #333; border-radius: 16px; padding: 16px 14px; margin-bottom: 12px; }
+.card .q { font-weight: 700; }
+.card .opt { color: #ddd; margin: 8px 0 0; }
+.card .ans { display: none; border-top: 1px solid #333; margin-top: 14px; padding-top: 12px; }
+.card .ans.show { display: block; }
+.ans b { color: #f5b301; }
+.progress { color: #bbb; font-size: 17px; text-align: center; margin: 4px 0 12px; }
+.bigbtn { display: block; width: 100%; background: #f5b301; color: #000; font-weight: 700; border: 0; border-radius: 14px; padding: 15px; margin: 0 0 10px; min-height: 58px; }
+.navbtn { width: 48%; background: #1c1c1e; color: #fff; border: 1px solid #333; border-radius: 14px; padding: 14px 6px; min-height: 58px; }
+.navbtn:disabled { opacity: 0.35; }
+.navrow { display: flex; justify-content: space-between; gap: 8px; }
+.back { display: block; width: 100%; background: #1c1c1e; color: #fff; border: 1px solid #333; border-radius: 14px; padding: 14px; margin: 0 0 16px; min-height: 56px; }
+.view { display: none; }
 #home { display: block; }
-.note { color: #bbb; font-size: 16px; margin-top: 24px; }
+.smallbtn { background: none; border: 0; color: #f5b301; font-size: 17px; padding: 10px 0; text-decoration: underline; }
+.note { color: #bbb; font-size: 16px; margin-top: 22px; }
 </style>
 </head>
 <body>
-<div id="home">
-<h1>Files</h1>
-<p class="sub">Tap a file to read it on your watch.</p>
-<button class="filebtn" onclick="openFile('qa')">Sample Questions and Answers<span>Year 1 Batch 24, 30 true/false plus 30 multiple choice, with answers</span></button>
-<button class="filebtn" onclick="openFile('timetable')">Daily Timetable<span>School day and exam day routine</span></button>
-<button class="filebtn" onclick="openFile('schedule')">FinAcc Rewrite Schedule<span>Own-words rewrite plan, Oct 25 to Oct 30</span></button>
-<p class="note">More files can be added on request. This page works best opened from a link on your watch.</p>
+<div class="view" id="home">
+<h1 class="brand">NXT:cheat</h1>
+<p class="sub">Cheat sheets for your watch. Tap a file to open it.</p>
+<button class="filebtn" onclick="openDeck()">Sample Questions and Answers<span>Year 1 Batch 24, 60 cards, tap to reveal answers</span></button>
+<button class="filebtn" onclick="openText('timetable')">Daily Timetable<span>School day and exam day routine</span></button>
+<button class="filebtn" onclick="openText('schedule')">FinAcc Rewrite Schedule<span>Own-words rewrite plan, Oct 25 to Oct 30</span></button>
+<p class="note">Sized for a watch display: one card at a time, big buttons, no sideways scrolling.</p>
 </div>
-<section class="reader" id="file-qa"><button class="back" onclick="goHome()">Back to files</button><h1>Sample Questions and Answers</h1><h1>Year 1 Batch 24: Sample Questions with Answers</h1>
+
+<div class="view" id="deck">
+<button class="back" onclick="goHome()">Back to files</button>
+<div class="sectrow">
+<button class="sectbtn on" id="btn-tf" onclick="setSection('tf')">True / False (30)</button>
+<button class="sectbtn" id="btn-mcq" onclick="setSection('mcq')">Multiple Choice (30)</button>
+</div>
+<div class="progress" id="progress"></div>
+<div class="card">
+<div class="q" id="card-q"></div>
+<div id="card-opts"></div>
+<div class="ans" id="card-ans"></div>
+</div>
+<button class="bigbtn" id="reveal-btn" onclick="reveal()">Show answer</button>
+<div class="navrow">
+<button class="navbtn" id="prev-btn" onclick="move(-1)">Previous</button>
+<button class="navbtn" id="next-btn" onclick="move(1)">Next</button>
+</div>
+<button class="smallbtn" onclick="openList()">See all cards as a list</button>
+</div>
+
+<div class="view" id="listview">
+<button class="back" onclick="openDeck()">Back to cards</button>
+<h1>Year 1 Batch 24: Sample Questions with Answers</h1>
 <p>This document contains the questions from the uploaded Year 1 Batch 24 sample paper, with answers and a short explanation for each. Section A answers are the True/False marks given in the sample paper. Section B answers were worked out from the questions. Use this for revision; if you use any wording in assessed work, put it in your own words.</p>
 <h2>Section A: True or False (30 questions)</h2>
 <p><b>1. A credit purchase of inventory increases both inventory and accounts payable.</b></p>
@@ -273,128 +312,74 @@ button { font: inherit; }
 <p>B. To ensure the business can meet its short-term financial obligations</p>
 <p>C. To increase non-current assets only</p>
 <p>D. To avoid preparing financial statements</p>
-<p>Answer: B. Good working capital management keeps the business liquid enough to meet short-term obligations.</p></section>
-<section class="reader" id="file-timetable"><button class="back" onclick="goHome()">Back to files</button><h1>Daily Timetable</h1><p>My Daily Timetable, Third Quarter</p>
-<p>My Timetable</p>
-<p>Third Quarter · NMA College · From 9 Nov 2026</p>
-<p>Classes start at noon, so school days start relaxed. The only early morning is exam day. Leave-home time assumes traffic and a buffer, adjust it to your actual ride.</p>
-<p>Mon / Wed</p>
-<p>Fri / Sat</p>
-<p>Exam Day · Mon 2 Nov</p>
-<p>Tue / Thu / Sun</p>
-<p>Monday &amp; Wednesday</p>
-<p>Managing a Work-Based Team Project · Daw Shein Pa Pa Min</p>
-<p>8:30 AM</p>
-<p>Wake up. No alarm panic, you have all morning.</p>
-<p>8:45 AM</p>
-<p>Shower and get dressed. Lay out your outfit the night before to keep this to 30 minutes.</p>
-<p>9:15 AM</p>
-<p>Breakfast. Proper meal, not a rush snack.</p>
-<p>10:00 AM</p>
-<p>Pack and prep. Bag, notes, anything due that day. Quick review of today&#x27;s class.</p>
-<p>11:00 AM</p>
-<p>Leave home. Aims you at school by about 11:30, with traffic buffer.</p>
-<p>12:00 – 2:30 PM</p>
-<p>Class: Managing a Work-Based Team Project. NMA College, 10 Aung Myay Thar Si Street.</p>
-<p>3:00 – 3:30 PM</p>
-<p>Home. Usually back by 3:00, sometimes 3:30. Change, snack, decompress.</p>
-<p>4:00 – 6:30 PM</p>
-<p>Study / assignments / Keystone work. The real work block of the day.</p>
-<p>7:00 PM</p>
-<p>Dinner and free evening. Gym, friends, content, rest.</p>
-<p>11:00 PM</p>
-<p>Sleep. 8:30 AM wake means a full night.</p>
-<p>Friday &amp; Saturday</p>
-<p>Entrepreneurship · Dr. Sandar Htwe</p>
-<p>8:30 AM</p>
-<p>Wake up.</p>
-<p>8:45 AM</p>
-<p>Shower and get dressed.</p>
-<p>9:15 AM</p>
-<p>Breakfast.</p>
-<p>10:00 AM</p>
-<p>Pack and prep.</p>
-<p>11:00 AM</p>
-<p>Leave home.</p>
-<p>12:00 – 2:30 PM</p>
-<p>Class: Entrepreneurship. NMA College, 10 Aung Myay Thar Si Street.</p>
-<p>3:00 – 3:30 PM</p>
-<p>Home. Usually back by 3:00, sometimes 3:30. Change, snack, decompress.</p>
-<p>4:00 – 6:30 PM</p>
-<p>Study / assignments / Keystone work.</p>
-<p>7:00 PM</p>
-<p>Dinner and free evening. Friday and Saturday nights are yours.</p>
-<p>11:00 PM</p>
-<p>Sleep.</p>
-<p>Exception: Friday 20 Nov is the Tazaungmone Festival, 10:30 AM to 1:00 PM, which overlaps this class. That day runs on the festival plan, not this one.</p>
-<p>Exam Day · Monday 2 Nov 2026</p>
-<p>Exam block 9:30 AM – 2:30 PM · the only early start</p>
-<p>6:45 AM</p>
-<p>Wake up. Early, but it is one day.</p>
-<p>7:00 AM</p>
-<p>Shower and get dressed.</p>
-<p>7:30 AM</p>
-<p>Breakfast. Eat properly before a 5-hour exam block.</p>
-<p>8:00 AM</p>
-<p>Final check. ID, pens, notes for last-minute review only.</p>
-<p>8:15 AM</p>
-<p>Leave home. Aims you at school by about 9:00.</p>
-<p>9:30 AM – 2:30 PM</p>
-<p>Exam. NMA College, 10 Aung Myay Thar Si Street.</p>
-<p>3:00 – 3:30 PM</p>
-<p>Home and rest. Exam day is done, take the evening off.</p>
-<p>Tuesday, Thursday &amp; Sunday</p>
-<p>No class · keep the same rhythm</p>
-<p>8:30 AM</p>
-<p>Wake up. Same time as school days, so Monday never hurts.</p>
-<p>8:45 AM</p>
-<p>Shower and get dressed.</p>
-<p>9:15 AM</p>
-<p>Breakfast.</p>
-<p>10:00 AM – 1:00 PM</p>
-<p>Deep work block. Assignments, study, Keystone, content.</p>
-<p>Afternoon</p>
-<p>Free. Gym, friends, errands, rest.</p>
-<p>7:00 PM</p>
-<p>Dinner and free evening.</p>
-<p>11:00 PM</p>
-<p>Sleep.</p>
-<p>Both module exams fall on 13 Jan 2027, times not yet published. When the school gives the times, the exam-day tab gets a second version. Travel times are estimates, shift the leave-home time to match your real ride.</p></section>
-<section class="reader" id="file-schedule"><button class="back" onclick="goHome()">Back to files</button><h1>FinAcc Rewrite Schedule</h1><h1>Financial Accounting Assignment - Thadingyut Break Rewrite Schedule</h1>
-<p>ATHE Level 4 &quot;Financial and Management Accounting Techniques for Managers&quot;</p>
-<p>Due: Friday, October 30, 2026 · Draft already done (~3,100 words, verified formatting)</p>
-<p>The job left: put it in your own words. Keep every figure, change every sentence.</p>
-<p>Similarity limit: 20%. Same numbers, your words.</p>
-<h2>Saturday Oct 24 (evening, after FinAcc class)</h2>
-<p>- Lock this plan. Last chance to ask Tr. KayThi anything before the break.</p>
-<p>- Open the draft doc and mark the four tasks so you can rewrite one at a time.</p>
-<h2>Sunday Oct 25 - Tasks 1 and 2</h2>
-<p>- Task 1: accounting systems presentation. Rewrite the explanations; keep the slide structure and key terms.</p>
-<p>- Task 2: working capital paper. Rewrite the analysis in your own phrasing; keep all ratios and conclusions identical.</p>
-<h2>Monday Oct 26 - Task 3</h2>
-<p>- Task 3: Conday and Co. investment appraisal. Re-derive the analysis in your own words: expansion NPV 14,598 vs takeover 9,277 (recommend expansion), IRRs 15.6% / 18.7%. Figures do not change, the write-up does.</p>
-<h2>Tuesday Oct 27 - Task 4 and full read-through</h2>
-<p>- Task 4: coach trip marginal costing. Same treatment: BEP 24 tickets, profit 306 at 60% occupancy and 493 with extra discounted seats.</p>
-<p>- Full read-through of the whole document for repeated phrasing. If a sentence sounds like the draft, rewrite it again.</p>
-<h2>Wednesday Oct 28 - Thursday Oct 29 (buffer)</h2>
-<p>- Final polish. Check formatting still matches (Times New Roman 14/12, 1.5 spacing, page numbers, APA references).</p>
-<p>- Run your similarity check if the school tool is available.</p>
-<h2>Friday Oct 30</h2>
-<p>- Submit.</p>
-<p>Nudge set: Sat Oct 24 at 7 PM, a one-off reminder to lock this plan after your last FinAcc class before the break.</p></section>
+<p>Answer: B. Good working capital management keeps the business liquid enough to meet short-term obligations.</p>
+</div>
+
+<div class="view" id="textview">
+<button class="back" onclick="goHome()">Back to files</button>
+<div id="textbody"></div>
+</div>
+
 <script>
-function openFile(id) {
-  document.getElementById('home').style.display = 'none';
-  var secs = document.querySelectorAll('.reader');
-  for (var i = 0; i < secs.length; i++) { secs[i].style.display = 'none'; }
-  document.getElementById('file-' + id).style.display = 'block';
+var CARDS = {"tf": [{"q": "A credit purchase of inventory increases both inventory and accounts payable.", "opts": null, "ans": "True", "exp": "Inventory (asset) rises and accounts payable (liability) rises."}, {"q": "Management accounting reports must always follow the same format as published financial statements.", "opts": null, "ans": "False", "exp": "Management accounting has no set statutory format; it is designed for internal needs."}, {"q": "Total fixed costs remain constant within the relevant range of activity.", "opts": null, "ans": "True", "exp": "Total fixed costs stay flat within the relevant range; only fixed cost per unit changes."}, {"q": "Financial accounting information is prepared exclusively for internal managers.", "opts": null, "ans": "False", "exp": "Financial accounting is mainly for external users such as investors and creditors."}, {"q": "Every transaction recorded under the double-entry system affects at least two accounts.", "opts": null, "ans": "True", "exp": "Every double-entry transaction has at least one debit and one credit."}, {"q": "Drawings by the owner are recorded as operating expenses in the income statement.", "opts": null, "ans": "False", "exp": "Drawings reduce owner's capital; they are not an expense of the business."}, {"q": "Financial accounting information is generally prepared according to applicable accounting standards and regulations.", "opts": null, "ans": "True", "exp": "Financial statements follow accounting standards and regulations."}, {"q": "The break-even point is the level of sales at which total revenue equals total costs.", "opts": null, "ans": "True", "exp": "At break-even, total revenue equals total costs and profit is zero."}, {"q": "Contribution is calculated by subtracting fixed costs from sales revenue.", "opts": null, "ans": "False", "exp": "Contribution = sales revenue minus variable costs, not fixed costs."}, {"q": "Standard costing compares actual costs with predetermined standard costs.", "opts": null, "ans": "True", "exp": "Standard costing compares actual results with predetermined standards and analyses the variances."}, {"q": "Accumulated depreciation represents the total depreciation charged on an asset since its acquisition, subject to relevant adjustments.", "opts": null, "ans": "True", "exp": "It is the total depreciation charged on the asset since acquisition, less adjustments such as disposals."}, {"q": "Equipment purchased for cash must always be recorded as an immediate expense in the income statement.", "opts": null, "ans": "False", "exp": "Equipment is capitalised as a non-current asset and then depreciated, not expensed at once."}, {"q": "The margin of safety measures the difference between actual or budgeted sales and break-even sales.", "opts": null, "ans": "True", "exp": "Margin of safety = actual or budgeted sales minus break-even sales."}, {"q": "Opportunity cost is the total amount of money already spent on a business activity.", "opts": null, "ans": "False", "exp": "Money already spent is sunk cost; opportunity cost is the benefit given up from the next best alternative."}, {"q": "The payback period measures the time required to recover the initial investment from a project's cash inflows.", "opts": null, "ans": "True", "exp": "Payback period is the time needed for cash inflows to cover the initial investment."}, {"q": "Management accounting reports can include both financial and non-financial information.", "opts": null, "ans": "True", "exp": "They may include non-financial measures such as customer satisfaction."}, {"q": "Bad debts are amounts owed by customers that are considered uncollectible.", "opts": null, "ans": "True", "exp": "Bad debts are receivables that will not be collected and are written off."}, {"q": "Prepaid expenses represent amounts that a business has received in advance from its customers.", "opts": null, "ans": "False", "exp": "Prepaid expenses are paid in advance by the business; amounts received in advance from customers are deferred income."}, {"q": "Ratio analysis can help investors and creditors evaluate a company's financial performance and position.", "opts": null, "ans": "True", "exp": "Ratios help investors and creditors judge performance, liquidity and position."}, {"q": "A budget is a report that records only the actual financial results of a completed period.", "opts": null, "ans": "False", "exp": "A budget is a forward plan of expected results, not a record of actual results."}, {"q": "A trial balance checks whether total debit balances equal total credit balances in the ledger accounts.", "opts": null, "ans": "True", "exp": "A trial balance lists ledger balances to check total debits equal total credits."}, {"q": "Purchasing equipment on credit decreases both total assets and total liabilities.", "opts": null, "ans": "False", "exp": "Buying equipment on credit increases both assets (equipment) and liabilities (payable)."}, {"q": "When the owner invests cash into a business, both assets and owner's capital increase.", "opts": null, "ans": "True", "exp": "Cash (asset) increases and capital increases when the owner invests."}, {"q": "Paying a supplier in cash increases both cash and accounts payable.", "opts": null, "ans": "False", "exp": "Paying a supplier in cash decreases both cash and accounts payable."}, {"q": "Trade discount is usually deducted from the list price before the transaction is recorded in the accounting books.", "opts": null, "ans": "True", "exp": "Trade discount is taken off the list price before the sale or purchase is recorded."}, {"q": "Cash discount is offered to encourage customers to delay payment of their accounts.", "opts": null, "ans": "False", "exp": "Cash discount encourages early payment, not delayed payment."}, {"q": "The income statement reports revenue and expenses over a specific accounting period.", "opts": null, "ans": "True", "exp": "The income statement covers revenue and expenses for a period of time."}, {"q": "The statement of financial position reports the financial position of a business over an entire accounting period.", "opts": null, "ans": "False", "exp": "The statement of financial position shows position at a specific date, not over a period."}, {"q": "Working capital is calculated by subtracting current assets from current liabilities.", "opts": null, "ans": "False", "exp": "Working capital = current assets minus current liabilities, not the other way round."}, {"q": "A positive net present value (NPV) generally indicates that an investment is expected to add value when evaluated using the specified discount rate.", "opts": null, "ans": "True", "exp": "A positive NPV means the project is expected to add value at the given discount rate."}], "mcq": [{"q": "Which of the following is an asset?", "opts": ["Accounts payable", "Bank loan", "Capital", "Inventory"], "ans": "D", "exp": "Inventory is an asset. Accounts payable and bank loan are liabilities, and capital is equity."}, {"q": "Which account normally has a debit balance?", "opts": ["Sales revenue", "Accounts payable", "Rent expense", "Capital"], "ans": "C", "exp": "Expenses have debit balances. Sales revenue, accounts payable and capital normally have credit balances."}, {"q": "What is the double-entry bookkeeping principle?", "opts": ["Every transaction affects only one account.", "Every transaction has equal debit and credit entries.", "Every transaction increases assets.", "Every transaction must involve cash."], "ans": "B", "exp": "Double entry means every transaction is recorded with equal debits and credits."}, {"q": "Which document is commonly issued when goods are sold on credit?", "opts": ["Purchase order", "Sales invoice", "Bank statement", "Remittance advice"], "ans": "B", "exp": "A sales invoice is issued to the customer when goods are sold on credit."}, {"q": "What is the purpose of a trial balance?", "opts": ["To calculate gross profit only", "To identify all accounting errors", "To check whether total debits equal total credits", "To calculate cash sales"], "ans": "C", "exp": "A trial balance checks that total debit balances equal total credit balances. It does not find every error."}, {"q": "Which financial statement shows the financial position of a business at a particular date?", "opts": ["Income statement", "Statement of financial position", "Cash flow statement", "Statement of changes in production"], "ans": "B", "exp": "The statement of financial position shows assets, liabilities and equity at a specific date."}, {"q": "Which statement best describes depreciation in accounting?", "opts": ["The process of increasing the value of a non-current asset", "The systematic allocation of an asset's depreciable amount over its useful life", "The process of recording the purchase of an asset as an immediate expense", "The calculation of profit earned from selling a non-current asset"], "ans": "B", "exp": "Depreciation spreads the depreciable amount of an asset over its useful life."}, {"q": "Which of the following is a current liability?", "opts": ["Land", "Trade receivables", "Trade payables", "Machinery"], "ans": "C", "exp": "Trade payables are due within a year, so they are current liabilities. Land and machinery are non-current assets; trade receivables are current assets."}, {"q": "A business purchases equipment for cash. What is the immediate effect on total assets, assuming no other changes?", "opts": ["Total assets increase.", "Total assets decrease.", "Total assets remain unchanged.", "Total liabilities increase."], "ans": "C", "exp": "Cash falls and equipment rises by the same amount, so total assets are unchanged."}, {"q": "How is gross profit calculated?", "opts": ["Total revenue minus operating expenses", "Total assets minus total liabilities", "Sales revenue minus cost of goods sold", "Total cash receipts minus total cash payments"], "ans": "C", "exp": "Gross profit = sales revenue minus cost of goods sold."}, {"q": "Which account is credited when a business makes a cash sale of goods?", "opts": ["Cash", "Purchases", "Sales", "Rent expense"], "ans": "C", "exp": "Cash is debited and sales is credited on a cash sale."}, {"q": "A business has assets of $80,000 and liabilities of $30,000. What is its capital?", "opts": ["$30,000", "$50,000", "$80,000", "$110,000"], "ans": "B", "exp": "Capital = assets minus liabilities = $80,000 - $30,000 = $50,000."}, {"q": "What is the main purpose of management accounting?", "opts": ["To prepare information exclusively for external investors", "To support internal planning, control and decision-making", "To calculate taxes only", "To prepare statutory financial statements only"], "ans": "B", "exp": "Management accounting supports internal planning, control and decision-making."}, {"q": "A product sells for $50 per unit, and its variable cost is $30 per unit. What is the contribution per unit?", "opts": ["$10", "$20", "$30", "$80"], "ans": "B", "exp": "Contribution per unit = $50 - $30 = $20."}, {"q": "A business has fixed costs of $12,000 and a contribution of $6 per unit. What is the break-even point in units?", "opts": ["1,000 units", "1,500 units", "2,000 units", "3,000 units"], "ans": "C", "exp": "Break-even units = fixed costs / contribution per unit = $12,000 / $6 = 2,000 units."}, {"q": "Which formula is used to calculate the margin of safety in units?", "opts": ["Break-even sales - Actual sales", "Actual sales - Break-even sales", "Fixed costs / Selling price", "Variable costs / Contribution"], "ans": "B", "exp": "Margin of safety = actual sales minus break-even sales."}, {"q": "Which of the following is a non-financial performance measure?", "opts": ["Gross profit margin", "Return on capital employed", "Customer satisfaction level", "Operating profit"], "ans": "C", "exp": "Customer satisfaction is non-financial. The others are financial measures."}, {"q": "Which technique evaluates the financial attractiveness of an investment by discounting future cash flows to their present value?", "opts": ["Break-even analysis", "Absorption costing", "Net Present Value (NPV)", "Material price variance analysis"], "ans": "C", "exp": "NPV discounts future cash flows to present value and deducts the initial investment."}, {"q": "What is the effect of purchasing inventory on credit?", "opts": ["Assets increase and liabilities increase.", "Assets decrease and equity increases.", "Liabilities decrease and expenses decrease.", "Assets and liabilities both decrease."], "ans": "A", "exp": "Inventory (asset) rises and accounts payable (liability) rises."}, {"q": "Which of the following is classified as an expense?", "opts": ["Bank loan received", "Owner's capital introduced", "Electricity consumed by the business", "Cash received from a customer for an existing receivable"], "ans": "C", "exp": "Electricity consumed is an expense. The others are a liability, capital, and a settlement of a receivable."}, {"q": "A business has revenue of $25,000 and cost of sales of $15,000. What is its gross profit?", "opts": ["$5,000", "$10,000", "$15,000", "$40,000"], "ans": "B", "exp": "Gross profit = $25,000 - $15,000 = $10,000."}, {"q": "Which account is debited when a business pays rent in cash?", "opts": ["Cash account", "Rent expense account", "Sales revenue account", "Capital account"], "ans": "B", "exp": "Rent expense is debited and cash is credited."}, {"q": "What is the main purpose of an income statement?", "opts": ["To show the financial position at a specific date", "To calculate profit or loss for an accounting period", "To record all cash transactions", "To list all assets and liabilities"], "ans": "B", "exp": "The income statement calculates profit or loss for an accounting period."}, {"q": "What is the main purpose of a statement of financial position?", "opts": ["To calculate the net profit of a business", "To show the assets, liabilities, and equity at a specific date", "To record daily cash transactions", "To calculate total sales revenue"], "ans": "B", "exp": "It shows assets, liabilities and equity at a specific date."}, {"q": "What is the main purpose of preparing a trial balance?", "opts": ["To calculate the net profit of a business", "To check whether total debit balances equal total credit balances", "To determine the market value of assets", "To calculate total cash sales"], "ans": "B", "exp": "A trial balance checks that total debit balances equal total credit balances."}, {"q": "Which investment appraisal technique considers the time value of money by discounting future cash flows?", "opts": ["Payback period", "Accounting rate of return (ARR)", "Net present value (NPV)", "Gross profit margin"], "ans": "C", "exp": "NPV discounts future cash flows; payback and ARR do not use discounting."}, {"q": "A project requires an initial investment of $20,000 and generates annual cash inflows of $5,000. What is the payback period, assuming equal annual cash inflows?", "opts": ["2 years", "3 years", "4 years", "5 years"], "ans": "C", "exp": "Payback = $20,000 / $5,000 = 4 years."}, {"q": "What does a positive Net Present Value (NPV) suggest about an investment project?", "opts": ["The present value of cash inflows is less than the initial investment.", "The project will generate no future cash flows.", "The present value of expected cash inflows exceeds the present value of cash outflows.", "The project will result in a financial loss."], "ans": "C", "exp": "A positive NPV means discounted inflows exceed discounted outflows, so the project adds value."}, {"q": "How is the accounting rate of return (ARR) commonly calculated?", "opts": ["Average annual accounting profit divided by average investment, multiplied by 100", "Initial investment divided by annual cash inflow", "Total revenue divided by total expenses", "Annual cash inflow divided by payback period"], "ans": "A", "exp": "ARR = (average annual accounting profit / average investment) x 100."}, {"q": "Why is effective working capital management important for a business?", "opts": ["To eliminate all operating expenses", "To ensure the business can meet its short-term financial obligations", "To increase non-current assets only", "To avoid preparing financial statements"], "ans": "B", "exp": "Good working capital management keeps the business liquid enough to meet short-term obligations."}]};
+var TEXTS = {"timetable": "<p>My Daily Timetable ,  Third Quarter</p>\n<p>My Timetable</p>\n<p>Third Quarter \u00b7 NMA College \u00b7 From 9 Nov 2026</p>\n<p>Classes start at noon, so school days start relaxed. The only early morning is exam day. Leave-home time assumes traffic and a buffer, adjust it to your actual ride.</p>\n<p>Mon / Wed</p>\n<p>Fri / Sat</p>\n<p>Exam Day \u00b7 Mon 2 Nov</p>\n<p>Tue / Thu / Sun</p>\n<p>Monday &amp; Wednesday</p>\n<p>Managing a Work-Based Team Project \u00b7 Daw Shein Pa Pa Min</p>\n<p>8:30 AM</p>\n<p>Wake up. No alarm panic, you have all morning.</p>\n<p>8:45 AM</p>\n<p>Shower and get dressed. Lay out your outfit the night before to keep this to 30 minutes.</p>\n<p>9:15 AM</p>\n<p>Breakfast. Proper meal, not a rush snack.</p>\n<p>10:00 AM</p>\n<p>Pack and prep. Bag, notes, anything due that day. Quick review of today&#x27;s class.</p>\n<p>11:00 AM</p>\n<p>Leave home. Aims you at school by about 11:30, with traffic buffer.</p>\n<p>12:00 \u2013 2:30 PM</p>\n<p>Class: Managing a Work-Based Team Project. NMA College, 10 Aung Myay Thar Si Street.</p>\n<p>3:00 \u2013 3:30 PM</p>\n<p>Home. Usually back by 3:00, sometimes 3:30. Change, snack, decompress.</p>\n<p>4:00 \u2013 6:30 PM</p>\n<p>Study / assignments / Keystone work. The real work block of the day.</p>\n<p>7:00 PM</p>\n<p>Dinner and free evening. Gym, friends, content, rest.</p>\n<p>11:00 PM</p>\n<p>Sleep. 8:30 AM wake means a full night.</p>\n<p>Friday &amp; Saturday</p>\n<p>Entrepreneurship \u00b7 Dr. Sandar Htwe</p>\n<p>8:30 AM</p>\n<p>Wake up.</p>\n<p>8:45 AM</p>\n<p>Shower and get dressed.</p>\n<p>9:15 AM</p>\n<p>Breakfast.</p>\n<p>10:00 AM</p>\n<p>Pack and prep.</p>\n<p>11:00 AM</p>\n<p>Leave home.</p>\n<p>12:00 \u2013 2:30 PM</p>\n<p>Class: Entrepreneurship. NMA College, 10 Aung Myay Thar Si Street.</p>\n<p>3:00 \u2013 3:30 PM</p>\n<p>Home. Usually back by 3:00, sometimes 3:30. Change, snack, decompress.</p>\n<p>4:00 \u2013 6:30 PM</p>\n<p>Study / assignments / Keystone work.</p>\n<p>7:00 PM</p>\n<p>Dinner and free evening. Friday and Saturday nights are yours.</p>\n<p>11:00 PM</p>\n<p>Sleep.</p>\n<p>Exception: Friday 20 Nov is the Tazaungmone Festival, 10:30 AM to 1:00 PM, which overlaps this class. That day runs on the festival plan, not this one.</p>\n<p>Exam Day \u00b7 Monday 2 Nov 2026</p>\n<p>Exam block 9:30 AM \u2013 2:30 PM \u00b7 the only early start</p>\n<p>6:45 AM</p>\n<p>Wake up. Early, but it is one day.</p>\n<p>7:00 AM</p>\n<p>Shower and get dressed.</p>\n<p>7:30 AM</p>\n<p>Breakfast. Eat properly before a 5-hour exam block.</p>\n<p>8:00 AM</p>\n<p>Final check. ID, pens, notes for last-minute review only.</p>\n<p>8:15 AM</p>\n<p>Leave home. Aims you at school by about 9:00.</p>\n<p>9:30 AM \u2013 2:30 PM</p>\n<p>Exam. NMA College, 10 Aung Myay Thar Si Street.</p>\n<p>3:00 \u2013 3:30 PM</p>\n<p>Home and rest. Exam day is done, take the evening off.</p>\n<p>Tuesday, Thursday &amp; Sunday</p>\n<p>No class \u00b7 keep the same rhythm</p>\n<p>8:30 AM</p>\n<p>Wake up. Same time as school days, so Monday never hurts.</p>\n<p>8:45 AM</p>\n<p>Shower and get dressed.</p>\n<p>9:15 AM</p>\n<p>Breakfast.</p>\n<p>10:00 AM \u2013 1:00 PM</p>\n<p>Deep work block. Assignments, study, Keystone, content.</p>\n<p>Afternoon</p>\n<p>Free. Gym, friends, errands, rest.</p>\n<p>7:00 PM</p>\n<p>Dinner and free evening.</p>\n<p>11:00 PM</p>\n<p>Sleep.</p>\n<p>Both module exams fall on 13 Jan 2027, times not yet published. When the school gives the times, the exam-day tab gets a second version. Travel times are estimates, shift the leave-home time to match your real ride.</p>", "schedule": "<h1>Financial Accounting Assignment - Thadingyut Break Rewrite Schedule</h1>\n<p>ATHE Level 4 &quot;Financial and Management Accounting Techniques for Managers&quot;</p>\n<p>Due: Friday, October 30, 2026 \u00b7 Draft already done (~3,100 words, verified formatting)</p>\n<p>The job left: put it in your own words. Keep every figure, change every sentence.</p>\n<p>Similarity limit: 20%. Same numbers, your words.</p>\n<h2>Saturday Oct 24 (evening, after FinAcc class)</h2>\n<p>- Lock this plan. Last chance to ask Tr. KayThi anything before the break.</p>\n<p>- Open the draft doc and mark the four tasks so you can rewrite one at a time.</p>\n<h2>Sunday Oct 25 - Tasks 1 and 2</h2>\n<p>- Task 1: accounting systems presentation. Rewrite the explanations; keep the slide structure and key terms.</p>\n<p>- Task 2: working capital paper. Rewrite the analysis in your own phrasing; keep all ratios and conclusions identical.</p>\n<h2>Monday Oct 26 - Task 3</h2>\n<p>- Task 3: Conday and Co. investment appraisal. Re-derive the analysis in your own words: expansion NPV 14,598 vs takeover 9,277 (recommend expansion), IRRs 15.6% / 18.7%. Figures do not change, the write-up does.</p>\n<h2>Tuesday Oct 27 - Task 4 and full read-through</h2>\n<p>- Task 4: coach trip marginal costing. Same treatment: BEP 24 tickets, profit 306 at 60% occupancy and 493 with extra discounted seats.</p>\n<p>- Full read-through of the whole document for repeated phrasing. If a sentence sounds like the draft, rewrite it again.</p>\n<h2>Wednesday Oct 28 - Thursday Oct 29 (buffer)</h2>\n<p>- Final polish. Check formatting still matches (Times New Roman 14/12, 1.5 spacing, page numbers, APA references).</p>\n<p>- Run your similarity check if the school tool is available.</p>\n<h2>Friday Oct 30</h2>\n<p>- Submit.</p>\n<p>Nudge set: Sat Oct 24 at 7 PM, a one-off reminder to lock this plan after your last FinAcc class before the break.</p>"};
+var section = 'tf';
+var index = 0;
+var revealed = false;
+function show(id) {
+  var views = document.querySelectorAll('.view');
+  for (var i = 0; i < views.length; i++) { views[i].style.display = 'none'; }
+  document.getElementById(id).style.display = 'block';
   window.scrollTo(0, 0);
 }
-function goHome() {
-  var secs = document.querySelectorAll('.reader');
-  for (var i = 0; i < secs.length; i++) { secs[i].style.display = 'none'; }
-  document.getElementById('home').style.display = 'block';
+function goHome() { show('home'); }
+function openDeck() { show('deck'); renderCard(); }
+function openList() { show('listview'); }
+function openText(key) {
+  document.getElementById('textbody').innerHTML = TEXTS[key];
+  show('textview');
+}
+function setSection(s) {
+  section = s; index = 0; revealed = false;
+  document.getElementById('btn-tf').className = s === 'tf' ? 'sectbtn on' : 'sectbtn';
+  document.getElementById('btn-mcq').className = s === 'mcq' ? 'sectbtn on' : 'sectbtn';
+  renderCard();
+}
+function renderCard() {
+  var list = CARDS[section];
+  var item = list[index];
+  var qEl = document.getElementById('card-q');
+  qEl.textContent = (index + 1) + '. ' + item.q;
+  var optsEl = document.getElementById('card-opts');
+  optsEl.innerHTML = '';
+  if (item.opts) {
+    var letters = ['A', 'B', 'C', 'D'];
+    for (var i = 0; i < item.opts.length; i++) {
+      var p = document.createElement('p');
+      p.className = 'opt';
+      p.textContent = letters[i] + '. ' + item.opts[i];
+      optsEl.appendChild(p);
+    }
+  }
+  var ansEl = document.getElementById('card-ans');
+  ansEl.innerHTML = '';
+  var b = document.createElement('b');
+  b.textContent = 'Answer: ' + item.ans + '. ';
+  ansEl.appendChild(b);
+  ansEl.appendChild(document.createTextNode(item.exp));
+  ansEl.className = revealed ? 'ans show' : 'ans';
+  document.getElementById('progress').textContent = 'Card ' + (index + 1) + ' of ' + list.length;
+  document.getElementById('prev-btn').disabled = index === 0;
+  document.getElementById('next-btn').disabled = index === list.length - 1;
+  document.getElementById('reveal-btn').textContent = revealed ? 'Answer shown' : 'Show answer';
   window.scrollTo(0, 0);
+}
+function reveal() { revealed = true; renderCard(); }
+function move(d) {
+  var list = CARDS[section];
+  var ni = index + d;
+  if (ni < 0 || ni >= list.length) return;
+  index = ni; revealed = false; renderCard();
 }
 </script>
 </body>
